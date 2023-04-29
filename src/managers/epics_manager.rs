@@ -42,7 +42,7 @@ impl ManagerTrait for EpicsManager {
     }
 
     fn get_manager_id(&self) -> i32 {
-        return EPICS_MANAGE_ID;
+        EPICS_MANAGE_ID
     }
 
     fn get_manager_name(&self) -> String {

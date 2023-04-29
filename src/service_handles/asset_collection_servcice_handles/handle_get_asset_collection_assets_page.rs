@@ -4,7 +4,7 @@ use tonic::async_trait;
 use tonic::{Request, Response, Status};
 
 use majordomo::{self, get_majordomo};
-use manage_define::cashmere::*;
+
 use managers::traits::ManagerTrait;
 use view::{add_query_filters, get_manage_schema_view};
 
@@ -23,12 +23,12 @@ pub trait HandleGetAssetCollectionAssetsPage {
         let metadata = request.metadata();
         // 已检查过，不需要再检查正确性
         let token = auth::get_auth_token(metadata).unwrap();
-        let (account_id, groups) = auth::get_claims_account_and_roles(&token).unwrap();
+        let (account_id, _groups) = auth::get_claims_account_and_roles(&token).unwrap();
         let role_group = auth::get_current_role(metadata).unwrap();
 
         let collection_id = &request.get_ref().collection_id;
         let page_index = &request.get_ref().page_index;
-        let total_pages_count = &request.get_ref().total_pages_count;
+        let _total_pages_count = &request.get_ref().total_pages_count;
 
         let manage_id = ASSETS_MANAGE_ID;
 
@@ -70,7 +70,7 @@ pub trait HandleGetAssetCollectionAssetsPage {
         let fields = manager.get_manage_schema().await;
         let schema_projects =
             get_manage_schema_view(&account_id, &role_group, &manage_id.to_string(), &fields).await;
-        let project_doc = if schema_projects.len() > 0 {
+        let project_doc = if !schema_projects.is_empty() {
             // 只加入不可见字段
             let mut no_show_project = Document::new();
             schema_projects.iter().for_each(|(k, v)| {

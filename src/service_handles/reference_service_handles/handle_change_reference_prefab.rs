@@ -1,5 +1,5 @@
 use bson::{doc, Document};
-use cash_result::{Failed, OperationResult};
+
 use majordomo::{self, get_majordomo};
 use manage_define::general_field_ids::ID_FIELD_ID;
 use managers::traits::ManagerTrait;
@@ -53,7 +53,7 @@ pub trait HandleChangeReferencePrefab {
             reference_field_id,
             doc! {"$each":bson::to_document(&vec![bson::to_document(old_reference).unwrap()]).unwrap()}
         );
-        let mut push_modify_doc = Document::new();
+        let push_modify_doc = Document::new();
         modify_doc.insert(
             reference_field_id,
             doc! {"$each":bson::to_document(&vec![bson::to_document(new_reference).unwrap()]).unwrap()}

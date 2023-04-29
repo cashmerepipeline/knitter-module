@@ -6,7 +6,7 @@ use service_common_handles::UnaryResponseResult;
 use tonic::{Request, Response, Status};
 
 use manage_define::general_field_ids::ID_FIELD_ID;
-use crate::ids_codes::manage_ids::*;
+
 use crate::protocol::*;
 
 #[async_trait]
@@ -55,7 +55,7 @@ pub trait HandleReferenceAssemblies {
             .await;
 
         match result {
-            Ok(r) => Ok(Response::new(ReferenceAssembliesResponse {
+            Ok(_r) => Ok(Response::new(ReferenceAssembliesResponse {
                 result: "ok".to_string(),
             })),
             Err(e) => Err(Status::aborted(format!(

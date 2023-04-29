@@ -24,7 +24,7 @@ pub trait HandleGetProjectAssociatedSetCollections {
         let (account_id, _groups) = auth::get_claims_account_and_roles(&token).unwrap();
         let role_group = auth::get_current_role(metadata).unwrap();
 
-        let project_id = &request.get_ref().project_id;
+        let _project_id = &request.get_ref().project_id;
         let set_collection_ids = &request.get_ref().collection_ids;
 
         if !view::can_collection_read(&account_id, &role_group, &PROJECTS_MANAGE_ID.to_string())

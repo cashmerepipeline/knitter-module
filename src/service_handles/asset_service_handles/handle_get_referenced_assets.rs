@@ -10,7 +10,7 @@ use crate::protocol::*;
 use manage_define::general_field_ids::ID_FIELD_ID;
 
 
-use crate::protocol::*;
+
 
 #[async_trait]
 pub trait HandleGetReferencedAssets {
@@ -26,7 +26,7 @@ pub trait HandleGetReferencedAssets {
         let role_group = auth::get_current_role(metadata).unwrap();
 
         let manage_id = &request.get_ref().manage_id;
-        let entity_id = &request.get_ref().entity_id;
+        let _entity_id = &request.get_ref().entity_id;
         let asset_ids = &request.get_ref().asset_ids;
 
         if !view::can_entity_read(&account_id, &role_group, &manage_id.to_string())

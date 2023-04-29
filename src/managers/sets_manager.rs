@@ -42,7 +42,7 @@ impl ManagerTrait for SetsManager {
     }
 
     fn get_manager_id(&self) -> i32 {
-        return SETS_MANAGE_ID;
+        SETS_MANAGE_ID
     }
 
     fn get_manager_name(&self) -> String {

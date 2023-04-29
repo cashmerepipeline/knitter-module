@@ -42,7 +42,7 @@ impl ManagerTrait for CutsManager {
     }
 
     fn get_manager_id(&self) -> i32 {
-        return CUTS_MANAGE_ID;
+        CUTS_MANAGE_ID
     }
 
     fn get_manager_name(&self) -> String {

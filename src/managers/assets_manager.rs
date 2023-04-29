@@ -42,7 +42,7 @@ impl ManagerTrait for AssetsManager {
     }
 
     fn get_manager_id(&self) -> i32 {
-        return ASSETS_MANAGE_ID;
+        ASSETS_MANAGE_ID
     }
 
     fn get_manager_name(&self) -> String {

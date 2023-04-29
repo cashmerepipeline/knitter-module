@@ -42,7 +42,7 @@ impl ManagerTrait for AssembliesManager {
     }
 
     fn get_manager_id(&self) -> i32 {
-        return ASSEMBLIES_MANAGE_ID;
+        ASSEMBLIES_MANAGE_ID
     }
 
     fn get_manager_name(&self) -> String {

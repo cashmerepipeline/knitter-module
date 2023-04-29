@@ -42,7 +42,7 @@ impl ManagerTrait for ProjectsManager {
     }
 
     fn get_manager_id(&self) -> i32 {
-        return PROJECTS_MANAGE_ID;
+        PROJECTS_MANAGE_ID
     }
 
     fn get_manager_name(&self) -> String {

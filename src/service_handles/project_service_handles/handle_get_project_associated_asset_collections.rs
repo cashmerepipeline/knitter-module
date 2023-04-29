@@ -1,5 +1,5 @@
 use tonic::async_trait;
-use bson::{doc, Document};
+use bson::{doc};
 use majordomo::{self, get_majordomo};
 use managers::traits::ManagerTrait;
 use service_common_handles::UnaryResponseResult;
@@ -21,10 +21,10 @@ pub trait HandleGetProjectAssociatedAssetCollections {
         let metadata = request.metadata();
         // 已检查过，不需要再检查正确性
         let token = auth::get_auth_token(metadata).unwrap();
-        let (account_id, groups) = auth::get_claims_account_and_roles(&token).unwrap();
+        let (account_id, _groups) = auth::get_claims_account_and_roles(&token).unwrap();
         let role_group = auth::get_current_role(metadata).unwrap();
 
-        let project_id = &request.get_ref().project_id;
+        let _project_id = &request.get_ref().project_id;
         let library_ids = &request.get_ref().collection_ids;
 
         if !view::can_collection_read(&account_id, &role_group, &PROJECTS_MANAGE_ID.to_string())

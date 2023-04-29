@@ -40,7 +40,7 @@ pub trait HandleListReferences {
             .await
             .unwrap();
 
-        let query_doc = doc! {
+        let _query_doc = doc! {
             ID_FIELD_ID.to_string():subject_entity_id.clone(),
         };
 

@@ -42,7 +42,7 @@ impl ManagerTrait for SequencesManager {
     }
 
     fn get_manager_id(&self) -> i32 {
-        return SEQUENCES_MANAGE_ID;
+        SEQUENCES_MANAGE_ID
     }
 
     fn get_manager_name(&self) -> String {

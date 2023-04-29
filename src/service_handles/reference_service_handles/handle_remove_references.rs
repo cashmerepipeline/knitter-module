@@ -6,7 +6,7 @@ use service_common_handles::UnaryResponseResult;
 use tonic::{Request, Response, Status};
 
 use manage_define::general_field_ids::ID_FIELD_ID;
-use crate::ids_codes::manage_ids::*;
+
 use crate::protocol::*;
 
 
@@ -56,7 +56,7 @@ pub trait HandleRemoveReferences {
             .await;
 
         match result {
-            Ok(r) => Ok(Response::new(RemoveReferencesResponse {
+            Ok(_r) => Ok(Response::new(RemoveReferencesResponse {
                 result: "ok".to_string(),
             })),
             Err(e) => Err(Status::aborted(format!(

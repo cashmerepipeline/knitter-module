@@ -42,7 +42,7 @@ impl ManagerTrait for SetCollectionsManager {
     }
 
     fn get_manager_id(&self) -> i32 {
-        return SET_COLLECTIONS_MANAGE_ID;
+        SET_COLLECTIONS_MANAGE_ID
     }
 
     fn get_manager_name(&self) -> String {
