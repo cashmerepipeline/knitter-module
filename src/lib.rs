@@ -2,8 +2,8 @@
 extern crate rust_i18n;
 i18n!("locales");
 
-mod protocol {
-    include!("io.knitter.rs");
+pub mod protocol {
+    include!("knitter_module.rs");
 }
 
 pub mod ids_codes;

@@ -7,7 +7,7 @@ Modified: !date!
 */
 
 syntax = "proto3";
-package io.knitter;
+package knitter_module;
 
 import "name.proto";
 
