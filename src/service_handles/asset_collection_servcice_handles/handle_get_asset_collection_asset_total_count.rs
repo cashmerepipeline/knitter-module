@@ -13,7 +13,7 @@ use crate::{
         field_ids::ASSETS_ASSOCIATED_COLLECTIONS_FIELD_ID,
         manage_ids::{ASSETS_MANAGE_ID},
     },
-    protocol::*
+    protocols::*
 };
 
 #[async_trait]

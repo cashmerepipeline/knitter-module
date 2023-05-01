@@ -2,7 +2,7 @@
 extern crate rust_i18n;
 i18n!("locales");
 
-pub mod protocol {
+pub mod protocols {
     include!("knitter_module.rs");
 }
 

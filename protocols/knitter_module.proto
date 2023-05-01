@@ -1,0 +1,23 @@
+/*
+Author: 闫刚 (yes7rose@sina.com)
+knitter.proto (c) 2021
+Desc: knitter服务
+Created:  2021-02-16T04:18:37.774Z
+Modified: !date!
+*/
+
+syntax = "proto3";
+package knitter_module;
+
+import "project.proto";
+import "asset_collection.proto";
+import "asset.proto";
+import "assembly.proto";
+import "epic.proto";
+import "sequence.proto";
+import "cut.proto";
+import "set_collection.proto";
+import "set.proto";
+import "reference.proto";
+
+service KnitterGrpc{ }

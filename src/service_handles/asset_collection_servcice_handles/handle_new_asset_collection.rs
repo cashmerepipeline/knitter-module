@@ -9,7 +9,7 @@ use tonic::{Request, Response, Status};
 
 use crate::ids_codes::field_ids::*;
 use crate::ids_codes::manage_ids::*;
-use crate::protocol::*;
+use crate::protocols::*;
 
 #[async_trait]
 pub trait HandleNewAssetCollection {

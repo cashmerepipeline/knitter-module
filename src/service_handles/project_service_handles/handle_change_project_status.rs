@@ -12,7 +12,7 @@ use view;
 
 use crate::ids_codes::field_ids::PROJECTS_STATUS_FIELD_ID;
 use crate::ids_codes::manage_ids::PROJECTS_MANAGE_ID;
-use crate::protocol::*;
+use crate::protocols::*;
 
 #[async_trait]
 pub trait HandleChangeProjectStatus {

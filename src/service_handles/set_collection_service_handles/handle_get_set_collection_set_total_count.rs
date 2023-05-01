@@ -10,7 +10,7 @@ use view;
 
 use crate::{
     ids_codes::{field_ids::SETS_ASSOCIATED_COLLECTIONS_FIELD_ID, manage_ids::SETS_MANAGE_ID},
-    protocol::*
+    protocols::*
 };
 
 #[async_trait]

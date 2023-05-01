@@ -10,7 +10,7 @@ use view::{add_query_filters, get_manage_schema_view};
 
 use crate::{
     ids_codes::{field_ids::ASSETS_ASSOCIATED_COLLECTIONS_FIELD_ID, manage_ids::ASSETS_MANAGE_ID},
-    protocol::*,
+    protocols::*,
 };
 
 #[async_trait]

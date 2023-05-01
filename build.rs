@@ -9,7 +9,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .type_attribute("Reference", "#[derive(serde::Serialize, serde::Deserialize)]")
         .compile_well_known_types(true)
         .compile(
-            &["protocols/knitter.proto"],
+            &["protocols/knitter_module.proto"],
             &["protocols", "../cashmere_core/protocols"],
         )?;
 
