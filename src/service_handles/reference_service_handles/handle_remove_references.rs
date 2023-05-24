@@ -1,9 +1,9 @@
-use tonic::async_trait;
-use bson::{doc, Document};
+use dependencies_sync::tonic::{async_trait};
+use dependencies_sync::bson::{self, doc, Document};
 use majordomo::{self, get_majordomo};
 use managers::traits::ManagerTrait;
-use service_common_handles::UnaryResponseResult;
-use tonic::{Request, Response, Status};
+use service_utils::types::UnaryResponseResult;
+use dependencies_sync::tonic::{Request, Response, Status};
 
 use manage_define::general_field_ids::ID_FIELD_ID;
 

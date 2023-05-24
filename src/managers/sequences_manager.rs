@@ -9,17 +9,16 @@ Modified: !date!
 use std::sync::Arc;
 
 // use log::{error, info, warn};
-use async_trait::async_trait;
-use bson;
-use parking_lot::RwLock;
-use bson::Document;
+use dependencies_sync::bson::Document;
+use dependencies_sync::parking_lot::RwLock;
+use dependencies_sync::tonic::async_trait;
 
 use cash_core::{manage_from_document, Manage};
 use cash_result::*;
-use managers::{declare_get_manager, ManagerInner, Manager, traits::ManagerTrait};
+use managers::{declare_get_manager, traits::ManagerTrait, Manager, ManagerInner};
 
-use manage_define::manage_ids::MANAGES_MANAGE_ID;
 use crate::ids_codes::manage_ids::SEQUENCES_MANAGE_ID;
+use manage_define::manage_ids::MANAGES_MANAGE_ID;
 
 #[derive(Default)]
 pub struct SequencesManager;
@@ -90,7 +89,6 @@ impl ManagerTrait for SequencesManager {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     #[test]
@@ -98,5 +96,3 @@ mod tests {
         assert_eq!(2 + 2, 4);
     }
 }
-
-

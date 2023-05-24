@@ -1,7 +1,7 @@
-use bson::doc;
-use service_common_handles::UnaryResponseResult;
-use tonic::async_trait;
-use tonic::{Request, Response, Status};
+use dependencies_sync::bson::doc;
+use service_utils::types::UnaryResponseResult;
+use dependencies_sync::tonic::{async_trait};
+use dependencies_sync::tonic::{Request, Response, Status};
 
 use majordomo::{self, get_majordomo};
 

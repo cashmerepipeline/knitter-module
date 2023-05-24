@@ -1,14 +1,14 @@
-use bson::{doc, Document};
+use dependencies_sync::bson::{doc, Document};
 use majordomo::{self, get_majordomo};
 use manage_define::general_field_ids::{
     DESCRIPTIONS_FIELD_ID, ID_FIELD_ID, NAME_MAP_FIELD_ID,
 };
 use managers::traits::ManagerTrait;
-use service_common_handles::name_utils::validate_name;
-use service_common_handles::UnaryResponseResult;
+use service_utils::validate_name;
+use service_utils::types::UnaryResponseResult;
 
-use tonic::async_trait;
-use tonic::{Request, Response, Status};
+use dependencies_sync::tonic::{async_trait};
+use dependencies_sync::tonic::{Request, Response, Status};
 
 use crate::ids_codes::field_ids::*;
 use crate::ids_codes::manage_ids::*;

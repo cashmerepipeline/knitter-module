@@ -1,15 +1,14 @@
-use bson::{doc, Document};
+use dependencies_sync::bson::{self, doc, Document};
+use dependencies_sync::tokio;
 
 use majordomo::{self, get_majordomo};
 use manage_define::general_field_ids::ID_FIELD_ID;
 use managers::traits::ManagerTrait;
-use service_common_handles::UnaryResponseResult;
-use tonic::async_trait;
-use tonic::{Request, Response, Status};
+use service_utils::types::UnaryResponseResult;
+use dependencies_sync::tonic::{async_trait};
+use dependencies_sync::tonic::{Request, Response, Status};
 
 use crate::protocols::*;
-
-
 
 #[async_trait]
 pub trait HandleChangeReferencePrefab {
