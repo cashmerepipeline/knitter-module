@@ -40,10 +40,9 @@ pub trait HandleGetProjectAssociatedSetCollections {
         // TODO: 可能需要关联用户工程可读检查
         // TODO: 需要检查工程是有关联，列出漏洞
 
-        let majordomo_arc = get_majordomo().await;
+        let majordomo_arc = get_majordomo();
         let manager = majordomo_arc
             .get_manager_by_id(SET_COLLECTIONS_MANAGE_ID)
-            .await
             .unwrap();
 
         let query_doc = doc! {

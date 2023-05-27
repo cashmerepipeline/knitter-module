@@ -38,10 +38,9 @@ pub trait HandleAssociateAssetCollectionsToProject {
             return Err(Status::unauthenticated(t!("用户不具有本项目可写权限")));
         }
 
-        let majordomo_arc = get_majordomo().await;
+        let majordomo_arc = get_majordomo();
         let manager = majordomo_arc
             .get_manager_by_id(PROJECTS_MANAGE_ID)
-            .await
             .unwrap();
 
         let query_doc = doc! {

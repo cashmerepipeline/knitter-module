@@ -35,10 +35,9 @@ pub trait HandleReferenceAssemblies {
 
         // TODO: 可能需要关联用户工程可读检查
 
-        let majordomo_arc = get_majordomo().await;
+        let majordomo_arc = get_majordomo();
         let manager = majordomo_arc
             .get_manager_by_id(*manage_id)
-            .await
             .unwrap();
 
         let query_doc = doc! {

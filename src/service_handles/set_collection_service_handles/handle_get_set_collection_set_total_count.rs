@@ -33,8 +33,8 @@ pub trait HandleGetSetCollectionSetTotalCount {
             return Err(Status::unauthenticated("用户不具有可读权限"));
         }
 
-        let majordomo_arc = get_majordomo().await;
-        let manager = majordomo_arc.get_manager_by_id(manage_id).await.unwrap();
+        let majordomo_arc = get_majordomo();
+        let manager = majordomo_arc.get_manager_by_id(manage_id).unwrap();
 
         let mut filter_doc = doc! {};
         filter_doc.insert(

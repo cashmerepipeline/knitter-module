@@ -42,8 +42,8 @@ pub trait HandleGetAssetCollectionAssetsPage {
             return Err(Status::unauthenticated("用户不具有集合可读权限"));
         }
 
-        let majordomo_arc = get_majordomo().await;
-        let manager = majordomo_arc.get_manager_by_id(manage_id).await.unwrap();
+        let majordomo_arc = get_majordomo();
+        let manager = majordomo_arc.get_manager_by_id(manage_id).unwrap();
 
         // 可读性过滤, 没有设置过滤即不可读
         // TODO: 根据组改写，加入可读过滤项

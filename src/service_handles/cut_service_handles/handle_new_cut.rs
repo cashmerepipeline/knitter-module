@@ -42,10 +42,9 @@ pub trait HandleNewCut {
         }
         let name = name.as_ref().unwrap();
 
-        let majordomo_arc = get_majordomo().await;
+        let majordomo_arc = get_majordomo();
         let manager = majordomo_arc
             .get_manager_by_id(CUTS_MANAGE_ID)
-            .await
             .unwrap();
 
         // 新建条目

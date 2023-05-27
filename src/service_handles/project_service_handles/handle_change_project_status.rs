@@ -37,8 +37,8 @@ pub trait HandleChangeProjectStatus {
             return Err(Status::unauthenticated("用户不具有实体可写权限"));
         }
 
-        let majordomo_arc = get_majordomo().await;
-        let manager = majordomo_arc.get_manager_by_id(manage_id).await.unwrap();
+        let majordomo_arc = get_majordomo();
+        let manager = majordomo_arc.get_manager_by_id(manage_id).unwrap();
 
         let mut query_doc = doc! {};
         query_doc.insert(ID_FIELD_ID.to_string(), project_id);
