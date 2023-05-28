@@ -48,7 +48,7 @@ message ReferenceSetsResponse {
 }
 
 // 标记状态
-message MarkSetStatusRequest { string set_id = 1; }
+message MarkSetStatusRequest {string set_id = 1;}
 message MarkSetStatusResponse {
   // 成功返回  "ok"
   string result = 1;

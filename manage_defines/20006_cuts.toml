@@ -7,12 +7,11 @@ name_map = { zh = "镜", en = "cuts" }
 
 # 数据描写 或者 模式
 schema = [
-    { data_type = "String", name_map = { zh = "场编号", en = "sequence_id"}, removed = false },
-    { data_type = "String", name_map = { zh = "根目录", en = "root"}, removed = false },
-    { data_type = "List", name_map = { zh = "引用表", en = "references"}, removed = false },
-
+    { data_type = "String", name_map = { zh = "场编号", en = "sequence_id" }, removed = false },
+    { data_type = "String", name_map = { zh = "根目录", en = "root" }, removed = false },
+    { data_type = "List", name_map = { zh = "引用表", en = "references" }, removed = false },
     # done, suspending, cancal
-    { data_type = "String", name_map = { zh = "状态", en = "status"}, removed = false },
+    { data_type = "String", name_map = { zh = "状态", en = "status" }, removed = false },
 ]
 
 # 特有属性

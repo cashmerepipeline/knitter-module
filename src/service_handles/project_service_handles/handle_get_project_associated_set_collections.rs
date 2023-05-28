@@ -1,15 +1,13 @@
-use dependencies_sync::tonic::{async_trait};
 use dependencies_sync::bson::{self, doc};
+use dependencies_sync::tonic::async_trait;
+use dependencies_sync::tonic::{Request, Response, Status};
 use majordomo::{self, get_majordomo};
+use manage_define::general_field_ids::ID_FIELD_ID;
 use managers::traits::ManagerTrait;
 use service_utils::types::UnaryResponseResult;
-use dependencies_sync::tonic::{Request, Response, Status};
 
 use crate::ids_codes::manage_ids::*;
 use crate::protocols::*;
-use manage_define::general_field_ids::ID_FIELD_ID;
-
-
 
 #[async_trait]
 pub trait HandleGetProjectAssociatedSetCollections {
@@ -26,16 +24,6 @@ pub trait HandleGetProjectAssociatedSetCollections {
 
         let _project_id = &request.get_ref().project_id;
         let set_collection_ids = &request.get_ref().collection_ids;
-
-        if !view::can_collection_read(&account_id, &role_group, &PROJECTS_MANAGE_ID.to_string())
-            .await
-        {
-            return Err(Status::unauthenticated("用户不具有工程可读权限"));
-        }
-        if !view::can_collection_read(&account_id, &role_group, &SET_COLLECTIONS_MANAGE_ID.to_string()).await
-        {
-            return Err(Status::unauthenticated("用户不具有景可读权限"));
-        }
 
         // TODO: 可能需要关联用户工程可读检查
         // TODO: 需要检查工程是有关联，列出漏洞
@@ -64,3 +52,26 @@ pub trait HandleGetProjectAssociatedSetCollections {
     }
 }
 
+
+async fn validate_view_rules(
+    request: Request<GetProjectAssociatedSetCollectionsRequest>,
+) -> Result<Request<GetProjectAssociatedSetCollectionsRequest>, Status> {
+    #[cfg(feature = "view_rules_validate")]
+    {
+        // TODO: 需要检查工程是有关联
+
+        let manage_id = SET_COLLECTIONS_MANAGE_ID;
+        let (_account_id, _groups, role_group) = request_account_context(request.metadata());
+        if Err(e) = view::validates::validate_collection_can_write(&manage_id, &role_group).await {
+            return Err(e);
+        }
+    }
+
+    Ok(request)
+}
+
+async fn validate_request_params(
+    request: Request<GetProjectAssociatedSetCollectionsRequest>,
+) -> Result<Request<GetProjectAssociatedSetCollectionsRequest>, Status> {
+    Ok(request)
+}

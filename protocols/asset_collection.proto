@@ -24,7 +24,7 @@ message NewAssetCollectionResponse {
 
 // 取得资产数量
 message GetAssetCollectionAssetTotalCountRequest{
-  string collection_id =1;
+  string collection_id = 1;
 }
 message GetAssetCollectionAssetTotalCountResponse {
   uint64 total_count = 1;
@@ -32,7 +32,7 @@ message GetAssetCollectionAssetTotalCountResponse {
 
 // 取得组合件数量
 message GetAssetCollectionAssemblyTotalCountRequest{
-  string collection_id =1;
+  string collection_id = 1;
 }
 message GetAssetCollectionAssemblyTotalCountResponse {
   uint64 total_count = 1;

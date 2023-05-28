@@ -20,4 +20,4 @@ import "set_collection.proto";
 import "set.proto";
 import "reference.proto";
 
-service KnitterGrpc{ }
+service KnitterGrpc{}

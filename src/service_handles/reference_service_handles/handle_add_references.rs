@@ -1,15 +1,12 @@
-use dependencies_sync::tonic::{async_trait};
 use dependencies_sync::bson::{self, doc, Document};
+use dependencies_sync::tonic::async_trait;
+use dependencies_sync::tonic::{Request, Response, Status};
 use majordomo::{self, get_majordomo};
+use manage_define::general_field_ids::ID_FIELD_ID;
 use managers::traits::ManagerTrait;
 use service_utils::types::UnaryResponseResult;
-use dependencies_sync::tonic::{Request, Response, Status};
-
-use manage_define::general_field_ids::ID_FIELD_ID;
 
 use crate::protocols::*;
-
-
 
 #[async_trait]
 pub trait HandleAddReferences {
@@ -29,12 +26,6 @@ pub trait HandleAddReferences {
         let reference_field_id = &request.get_ref().reference_field_id;
         let references = &request.get_ref().references;
 
-        if !view::can_collection_write(&account_id, &role_group, &manage_id.to_string())
-            .await
-        {
-            return Err(Status::unauthenticated(format!("用户不具有可写权限：{}", manage_id)));
-        }
-
         // TODO: 可能需要关联用户工程可读检查
 
         let majordomo_arc = get_majordomo();
@@ -48,7 +39,7 @@ pub trait HandleAddReferences {
         let mut modify_doc = Document::new();
         modify_doc.insert(
             reference_field_id,
-            doc! {"$each": references.iter().map(|r| bson::to_document(r).unwrap()).collect::<Vec<Document>>()}
+            doc! {"$each": references.iter().map(|r| bson::to_document(r).unwrap()).collect::<Vec<Document>>()},
         );
 
         let result = manager
@@ -69,3 +60,25 @@ pub trait HandleAddReferences {
 }
 
 
+async fn validate_view_rules(
+    request: Request<AddReferencesRequest>,
+) -> Result<Request<AddReferencesRequest>, Status> {
+    #[cfg(feature = "view_rules_validate")]
+    {
+        // TODO: 可能需要关联用户工程可读检查
+
+        let manage_id = &request.get_ref().subject_manage_id;
+        let (_account_id, _groups, role_group) = request_account_context(request.metadata());
+        if Err(e) = view::validates::validate_collection_can_write(&manage_id, &role_group).await {
+            return Err(e);
+        }
+    }
+
+    Ok(request)
+}
+
+async fn validate_request_params(
+    request: Request<AddReferencesRequest>,
+) -> Result<Request<AddReferencesRequest>, Status> {
+    Ok(request)
+}

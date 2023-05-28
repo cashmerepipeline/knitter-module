@@ -43,7 +43,7 @@ message ListReferencesRequest {
   // 主引用字段编码
   string reference_field_id = 3;
 }
-message ListReferencesResponse { repeated bytes references = 1; }
+message ListReferencesResponse {repeated bytes references = 1;}
 
 // 移除引用
 message RemoveReferencesRequest {

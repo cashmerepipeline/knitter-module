@@ -1,19 +1,18 @@
-use dependencies_sync::tonic::{async_trait};
 use dependencies_sync::bson::doc;
-use service_utils::types::UnaryResponseResult;
+use dependencies_sync::futures::TryFutureExt;
+use dependencies_sync::tonic::async_trait;
 use dependencies_sync::tonic::{Request, Response, Status};
-
 use majordomo::{self, get_majordomo};
-
 use managers::traits::ManagerTrait;
+use service_utils::types::UnaryResponseResult;
 use view;
 
 use crate::{
     ids_codes::{
         field_ids::ASSETS_ASSOCIATED_COLLECTIONS_FIELD_ID,
-        manage_ids::{ASSETS_MANAGE_ID},
+        manage_ids::ASSETS_MANAGE_ID,
     },
-    protocols::*
+    protocols::*,
 };
 
 #[async_trait]
@@ -23,39 +22,62 @@ pub trait HandleGetAssetCollectionAssetTotalCount {
         &self,
         request: Request<GetAssetCollectionAssetTotalCountRequest>,
     ) -> UnaryResponseResult<GetAssetCollectionAssetTotalCountResponse> {
-        let metadata = request.metadata();
-        // 已检查过，不需要再检查正确性
-        let token = auth::get_auth_token(metadata).unwrap();
-        let (account_id, _groups) = auth::get_claims_account_and_roles(&token).unwrap();
-        let role_group = auth::get_current_role(metadata).unwrap();
+        validate_view_rules(request)
+            .and_then(validate_request_params)
+            .and_then(handle_get_asset_collection_asset_total_count)
+            .await
+    }
+}
 
-        let collection_id = &request.get_ref().collection_id;
-        let manage_id = ASSETS_MANAGE_ID;
 
-        if !view::can_collection_read(&account_id, &role_group, &manage_id.to_string()).await {
-            return Err(Status::unauthenticated("用户不具有可读权限"));
+async fn validate_view_rules(
+    request: Request<GetAssetCollectionAssetTotalCountRequest>,
+) -> Result<Request<GetAssetCollectionAssetTotalCountRequest>, Status> {
+    #[cfg(feature = "view_rules_validate")]
+    {
+        use request_utils::request_account_context;
+
+        let manage_id = ASSEMBLIES_MANAGE_ID;
+        let (_account_id, _groups, role_group) = request_account_context(request.metadata());
+        if Err(e) = view::validates::validate_collection_can_write(&manage_id, &role_group).await {
+            return Err(e);
         }
+    }
 
-        let majordomo_arc = get_majordomo();
-        let manager = majordomo_arc.get_manager_by_id(manage_id).unwrap();
+    Ok(request)
+}
 
-        let mut filter_doc = doc! {};
-        filter_doc.insert(
-            ASSETS_ASSOCIATED_COLLECTIONS_FIELD_ID.to_string(),
-            doc! {"$in":[collection_id]},
-        );
+async fn validate_request_params(
+    request: Request<GetAssetCollectionAssetTotalCountRequest>,
+) -> Result<Request<GetAssetCollectionAssetTotalCountRequest>, Status> {
+    Ok(request)
+}
 
-        let result = manager.get_entry_counts(filter_doc).await;
+async fn handle_get_asset_collection_asset_total_count(
+    request: Request<GetAssetCollectionAssetTotalCountRequest>,
+) -> UnaryResponseResult<GetAssetCollectionAssetTotalCountResponse> {
+    let collection_id = &request.get_ref().collection_id;
+    let manage_id = ASSETS_MANAGE_ID;
 
-        match result {
-            Ok(r) => Ok(Response::new(GetAssetCollectionAssetTotalCountResponse {
-                total_count: r,
-            })),
-            Err(e) => Err(Status::aborted(format!(
-                "{} {}",
-                e.operation(),
-                e.details()
-            ))),
-        }
+    let majordomo_arc = get_majordomo();
+    let manager = majordomo_arc.get_manager_by_id(manage_id).unwrap();
+
+    let mut filter_doc = doc! {};
+    filter_doc.insert(
+        ASSETS_ASSOCIATED_COLLECTIONS_FIELD_ID.to_string(),
+        doc! {"$in":[collection_id]},
+    );
+
+    let result = manager.get_entry_counts(filter_doc).await;
+
+    match result {
+        Ok(r) => Ok(Response::new(GetAssetCollectionAssetTotalCountResponse {
+            total_count: r,
+        })),
+        Err(e) => Err(Status::aborted(format!(
+            "{} {}",
+            e.operation(),
+            e.details()
+        ))),
     }
 }

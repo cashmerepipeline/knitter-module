@@ -7,13 +7,12 @@ name_map = { zh = "预组件", en = "assemblies" }
 
 # 数据描写 或者 模式
 schema = [
-    { data_type = "String", name_map = { zh = "原始集", en = "original_collection"}, removed = false },
-    { data_type = "List", name_map = { zh = "关联集", en = "associated_collections"}, removed = false },
-    { data_type = "List", name_map = { zh = "引用表", en = "references"}, removed = false },
-
+    { data_type = "String", name_map = { zh = "原始集", en = "original_collection" }, removed = false },
+    { data_type = "List", name_map = { zh = "关联集", en = "associated_collections" }, removed = false },
+    { data_type = "List", name_map = { zh = "引用表", en = "references" }, removed = false },
     # done, suspending, cancal
-    { data_type = "String", name_map = { zh = "状态", en = "status"}, removed = false },
-    { data_type = "List", name_map = { zh = "预览", en = "previews"}, removed = false },
+    { data_type = "String", name_map = { zh = "状态", en = "status" }, removed = false },
+    { data_type = "List", name_map = { zh = "预览", en = "previews" }, removed = false },
 ]
 
 # 特有属性

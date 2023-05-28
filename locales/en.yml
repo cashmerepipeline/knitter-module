@@ -3,4 +3,4 @@
 初始化日志目录失败: init log dir failed
 地址或端口解析错误: parsing address and port failed
 读取客户端crt文件失败: read client crt file failed
-创建日志目录失败:  init log dir failed
+创建日志目录失败: init log dir failed

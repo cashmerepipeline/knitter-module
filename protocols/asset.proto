@@ -23,7 +23,7 @@ message NewAssetResponse {
 }
 
 // 标记状态
-message MarkAssetStatusRequest { string asset_id = 1; AssetStatus status = 2;}
+message MarkAssetStatusRequest {string asset_id = 1; AssetStatus status = 2;}
 message MarkAssetStatusResponse {
   // 成功返回  "ok"
   string result = 1;

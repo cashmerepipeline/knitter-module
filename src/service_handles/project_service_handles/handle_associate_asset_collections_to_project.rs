@@ -1,15 +1,14 @@
-use dependencies_sync::tonic::{async_trait};
 use dependencies_sync::bson::{doc, Document};
+use dependencies_sync::tonic::async_trait;
+use dependencies_sync::tonic::{Request, Response, Status};
 use majordomo::{self, get_majordomo};
+use manage_define::general_field_ids::ID_FIELD_ID;
 use managers::traits::ManagerTrait;
 use service_utils::types::UnaryResponseResult;
-use dependencies_sync::tonic::{Request, Response, Status};
 
 use crate::ids_codes::field_ids::*;
 use crate::ids_codes::manage_ids::*;
 use crate::protocols::*;
-
-use manage_define::general_field_ids::ID_FIELD_ID;
 
 #[async_trait]
 pub trait HandleAssociateAssetCollectionsToProject {
@@ -26,17 +25,6 @@ pub trait HandleAssociateAssetCollectionsToProject {
 
         let project_id = &request.get_ref().project_id;
         let collection_ids = &request.get_ref().collection_ids;
-
-        if !view::can_collection_write(&account_id, &role_group, &PROJECTS_MANAGE_ID.to_string())
-            .await
-        {
-            return Err(Status::unauthenticated(t!("用户不具有可写权限")));
-        }
-        if !view::can_entity_write(&account_id, &role_group, &PROJECTS_MANAGE_ID.to_string())
-            .await
-        {
-            return Err(Status::unauthenticated(t!("用户不具有本项目可写权限")));
-        }
 
         let majordomo_arc = get_majordomo();
         let manager = majordomo_arc
@@ -67,4 +55,26 @@ pub trait HandleAssociateAssetCollectionsToProject {
             ))),
         }
     }
+}
+
+
+async fn validate_view_rules(
+    request: Request<AssociateAssetCollectionsToProjectRequest>,
+) -> Result<Request<AssociateAssetCollectionsToProjectRequest>, Status> {
+    #[cfg(feature = "view_rules_validate")]
+    {
+        let manage_id = PROJECTS_MANAGE_ID;
+        let (_account_id, _groups, role_group) = request_account_context(request.metadata());
+        if Err(e) = view::validates::validate_collection_can_write(&manage_id, &role_group).await {
+            return Err(e);
+        }
+    }
+
+    Ok(request)
+}
+
+async fn validate_request_params(
+    request: Request<AssociateAssetCollectionsToProjectRequest>,
+) -> Result<Request<AssociateAssetCollectionsToProjectRequest>, Status> {
+    Ok(request)
 }

@@ -1,18 +1,17 @@
-use dependencies_sync::tonic::{async_trait};
 use dependencies_sync::bson::{doc, Document};
+use dependencies_sync::tonic::async_trait;
+use dependencies_sync::tonic::{Request, Response, Status};
 use majordomo::{self, get_majordomo};
 use manage_define::general_field_ids::{
     DESCRIPTIONS_FIELD_ID, ID_FIELD_ID, NAME_MAP_FIELD_ID,
 };
 use managers::traits::ManagerTrait;
-use service_utils::validate_name;
 use service_utils::types::UnaryResponseResult;
-use dependencies_sync::tonic::{Request, Response, Status};
+use service_utils::validate_name;
 
 use crate::ids_codes::field_ids::*;
 use crate::ids_codes::manage_ids::*;
 use crate::protocols::*;
-
 
 #[async_trait]
 pub trait HandleNewEpic {
@@ -30,12 +29,6 @@ pub trait HandleNewEpic {
         let name = &request.get_ref().name;
         let project_id = &request.get_ref().project_id;
         let description = &request.get_ref().description;
-
-       if !view::can_collection_write(&account_id, &role_group, &EPICS_MANAGE_ID.to_string())
-            .await
-        {
-            return Err(Status::unauthenticated("用户不具有可写权限"));
-        }
 
         if validate_name(name).is_err() {
             return Err(Status::data_loss("名字不能为空."));
@@ -57,11 +50,11 @@ pub trait HandleNewEpic {
         );
         new_entity_doc.insert(
             EPICS_PROJECT_ID_FIELD_ID.to_string(),
-            project_id.clone()
+            project_id.clone(),
         );
         new_entity_doc.insert(
             DESCRIPTIONS_FIELD_ID.to_string(),
-            description.clone()
+            description.clone(),
         );
 
         let result = manager
@@ -83,3 +76,23 @@ pub trait HandleNewEpic {
 }
 
 
+async fn validate_view_rules(
+    request: Request<NewEpicRequest>,
+) -> Result<Request<NewEpicRequest>, Status> {
+    #[cfg(feature = "view_rules_validate")]
+    {
+        let manage_id = EPICS_MANAGE_ID;
+        let (_account_id, _groups, role_group) = request_account_context(request.metadata());
+        if Err(e) = view::validates::validate_collection_can_write(&manage_id, &role_group).await {
+            return Err(e);
+        }
+    }
+
+    Ok(request)
+}
+
+async fn validate_request_params(
+    request: Request<NewEpicRequest>,
+) -> Result<Request<NewEpicRequest>, Status> {
+    Ok(request)
+}

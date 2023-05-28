@@ -19,6 +19,7 @@ view = { path = "../cashmere_core/view" }
 manage_define = { path = "../cashmere_core/manage_define" }
 server_utils = { path = "../cashmere_core/server_utils" }
 service_utils = { path = "../cashmere_core/service_utils" }
+request_utils = { path = "../cashmere_core/request_utils" }
 
 dependencies_sync = { path = "../cashmere_core/dependencies_sync", features = ["tokio", "bson", "tonic", "log", "parking_lot"] }
 

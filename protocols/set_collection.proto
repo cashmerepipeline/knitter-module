@@ -27,7 +27,7 @@ message GetSetCollectionSetsPageResponse {
 
 // 取得景数量
 message GetSetCollectionSetTotalCountRequest{
-  string collection_id =1;
+  string collection_id = 1;
 }
 message GetSetCollectionSetTotalCountResponse {
   uint64 total_count = 1;

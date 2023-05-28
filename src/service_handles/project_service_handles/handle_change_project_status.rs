@@ -1,13 +1,10 @@
-use dependencies_sync::tonic::{async_trait};
 use dependencies_sync::bson::doc;
-use service_utils::types::UnaryResponseResult;
+use dependencies_sync::tonic::async_trait;
 use dependencies_sync::tonic::{Request, Response, Status};
-
 use majordomo::{self, get_majordomo};
-
 use manage_define::general_field_ids::*;
-
 use managers::traits::ManagerTrait;
+use service_utils::types::UnaryResponseResult;
 use view;
 
 use crate::ids_codes::field_ids::PROJECTS_STATUS_FIELD_ID;
@@ -30,20 +27,13 @@ pub trait HandleChangeProjectStatus {
         let status = &request.get_ref().status;
         let manage_id = PROJECTS_MANAGE_ID;
 
-        if !view::can_collection_write(&account_id, &role_group, &manage_id.to_string()).await {
-            return Err(Status::unauthenticated("用户不具有集合可写权限"));
-        }
-        if !view::can_entity_write(&account_id, &role_group, &manage_id.to_string()).await {
-            return Err(Status::unauthenticated("用户不具有实体可写权限"));
-        }
-
         let majordomo_arc = get_majordomo();
         let manager = majordomo_arc.get_manager_by_id(manage_id).unwrap();
 
         let mut query_doc = doc! {};
         query_doc.insert(ID_FIELD_ID.to_string(), project_id);
-        
-        if !manager.entity_exists(&query_doc).await{
+
+        if !manager.entity_exists(&query_doc).await {
             return Err(Status::data_loss(t!("工程不存在")));
         };
 
@@ -63,4 +53,26 @@ pub trait HandleChangeProjectStatus {
             ))),
         }
     }
+}
+
+
+async fn validate_view_rules(
+    request: Request<ChangeProjectStatusRequest>,
+) -> Result<Request<ChangeProjectStatusRequest>, Status> {
+    #[cfg(feature = "view_rules_validate")]
+    {
+        let manage_id = PROJECTS_MANAGE_ID;
+        let (_account_id, _groups, role_group) = request_account_context(request.metadata());
+        if Err(e) = view::validates::validate_collection_can_write(&manage_id, &role_group).await {
+            return Err(e);
+        }
+    }
+
+    Ok(request)
+}
+
+async fn validate_request_params(
+    request: Request<ChangeProjectStatusRequest>,
+) -> Result<Request<ChangeProjectStatusRequest>, Status> {
+    Ok(request)
 }
