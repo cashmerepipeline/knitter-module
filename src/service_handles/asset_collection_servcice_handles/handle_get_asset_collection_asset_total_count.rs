@@ -5,7 +5,7 @@ use dependencies_sync::tonic::{Request, Response, Status};
 use majordomo::{self, get_majordomo};
 use managers::traits::ManagerTrait;
 use service_utils::types::UnaryResponseResult;
-use view;
+
 
 use crate::{
     ids_codes::{

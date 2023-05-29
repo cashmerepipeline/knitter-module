@@ -6,7 +6,7 @@ use majordomo::{self, get_majordomo};
 use managers::traits::ManagerTrait;
 use request_utils::request_account_context;
 use service_utils::types::UnaryResponseResult;
-use view;
+
 
 use crate::{
     ids_codes::{field_ids::SETS_ASSOCIATED_COLLECTIONS_FIELD_ID, manage_ids::SETS_MANAGE_ID},
@@ -52,7 +52,7 @@ async fn validate_request_params(
 async fn handle_get_set_collection_set_total_count(
     request: Request<GetSetCollectionSetTotalCountRequest>,
 ) -> Result<Response<GetSetCollectionSetTotalCountResponse>, Status> {
-    let (account_id, _groups, role_group) = request_account_context(request.metadata());
+    let (_account_id, _groups, _role_group) = request_account_context(request.metadata());
 
     let collection_id = &request.get_ref().collection_id;
     let manage_id = SETS_MANAGE_ID;

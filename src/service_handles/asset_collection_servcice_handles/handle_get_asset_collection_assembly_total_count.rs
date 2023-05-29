@@ -6,7 +6,7 @@ use majordomo::{self, get_majordomo};
 use managers::traits::ManagerTrait;
 use request_utils::request_account_context;
 use service_utils::types::UnaryResponseResult;
-use view;
+
 
 use crate::{
     ids_codes::{
@@ -55,7 +55,7 @@ async fn validate_request_params(
 async fn handle_get_asset_collection_assembly_total_count(
     request: Request<GetAssetCollectionAssemblyTotalCountRequest>,
 ) -> UnaryResponseResult<GetAssetCollectionAssemblyTotalCountResponse> {
-    let (account_id, _groups, role_group) = request_account_context(request.metadata());
+    let (_account_id, _groups, _role_group) = request_account_context(request.metadata());
 
     let collection_id = &request.get_ref().collection_id;
     let manage_id = ASSETS_MANAGE_ID;

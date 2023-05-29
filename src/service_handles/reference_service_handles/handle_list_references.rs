@@ -2,6 +2,8 @@ use cash_result::{Failed, OperationResult};
 use dependencies_sync::bson::{self, doc};
 use dependencies_sync::tonic::async_trait;
 use dependencies_sync::tonic::{Request, Response, Status};
+use dependencies_sync::futures::TryFutureExt;
+
 use majordomo::{self, get_majordomo};
 use manage_define::general_field_ids::ID_FIELD_ID;
 use managers::traits::ManagerTrait;
@@ -16,7 +18,12 @@ pub trait HandleListReferences {
     async fn handle_list_references(
         &self,
         request: Request<ListReferencesRequest>,
-    ) -> UnaryResponseResult<ListReferencesResponse> {}
+    ) -> UnaryResponseResult<ListReferencesResponse> {
+        validate_view_rules(request)
+            .and_then(validate_request_params)
+            .and_then(handle_list_references)
+            .await
+    }
 }
 
 
@@ -44,7 +51,7 @@ async fn validate_request_params(
 async fn handle_list_references(
     request: Request<ListReferencesRequest>,
 ) -> Result<Response<ListReferencesResponse>, Status> {
-    let (account_id, _groups, role_group) = request_account_context(request.metadata());
+    let (_account_id, _groups, _role_group) = request_account_context(request.metadata());
 
     let subject_manage_id = &request.get_ref().subject_manage_id;
     let subject_entity_id = &request.get_ref().subject_entity_id;

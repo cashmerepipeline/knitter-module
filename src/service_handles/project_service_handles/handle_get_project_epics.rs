@@ -50,7 +50,7 @@ async fn validate_request_params(
 async fn handle_get_project_epics(
     request: Request<GetProjectEpicsRequest>,
 ) -> Result<Response<GetProjectEpicsResponse>, Status> {
-    let (account_id, _groups, _role_group) = request_account_context(request.metadata());
+    let (_account_id, _groups, _role_group) = request_account_context(request.metadata());
 
     let project_id = &request.get_ref().project_id;
 

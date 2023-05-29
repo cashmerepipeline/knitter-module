@@ -12,7 +12,7 @@ use crate::{
     ids_codes::{field_ids::ASSETS_ASSOCIATED_COLLECTIONS_FIELD_ID, manage_ids::ASSETS_MANAGE_ID},
     protocols::*,
 };
-use crate::ids_codes::manage_ids::ASSET_COLLECTIONS_MANAGE_ID;
+
 
 #[async_trait]
 pub trait HandleGetAssetCollectionAssetsPage {

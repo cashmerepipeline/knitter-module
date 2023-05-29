@@ -50,7 +50,7 @@ async fn validate_request_params(
 async fn handle_change_reference_prefab(
     request: Request<ChangeReferencePrefabRequest>,
 ) -> Result<Response<ChangeReferencePrefabResponse>, Status> {
-    let (account_id, _groups, role_group) = request_account_context(request.metadata());
+    let (account_id, _groups, _role_group) = request_account_context(request.metadata());
 
     let subject_manage_id = &request.get_ref().subject_manage_id;
     let subject_entity_id = &request.get_ref().subject_entity_id;

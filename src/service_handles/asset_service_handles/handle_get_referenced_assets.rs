@@ -50,7 +50,7 @@ async fn validate_request_params(
 async fn handle_get_referenced_assets(
     request: Request<GetReferencedAssetsRequest>,
 ) -> UnaryResponseResult<GetReferencedAssetsResponse> {
-    let manage_id = &request.get_ref().manage_id;
+    let _manage_id = &request.get_ref().manage_id;
     let _entity_id = &request.get_ref().entity_id;
     let asset_ids = &request.get_ref().asset_ids;
 

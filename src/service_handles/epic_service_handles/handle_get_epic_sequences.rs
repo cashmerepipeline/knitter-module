@@ -1,8 +1,11 @@
 use dependencies_sync::bson::{self, doc};
 use dependencies_sync::tonic::async_trait;
 use dependencies_sync::tonic::{Request, Response, Status};
+use dependencies_sync::futures::TryFutureExt;
+
 use majordomo::{self, get_majordomo};
 use managers::traits::ManagerTrait;
+use request_utils::request_account_context;
 use service_utils::types::UnaryResponseResult;
 
 use crate::ids_codes::field_ids::SEQUENCES_EPIC_ID_FIELD_ID;
@@ -16,42 +19,12 @@ pub trait HandleGetEpicSequences {
         &self,
         request: Request<GetEpicSequencesRequest>,
     ) -> UnaryResponseResult<GetEpicSequencesResponse> {
-        let metadata = request.metadata();
-        // 已检查过，不需要再检查正确性
-        let token = auth::get_auth_token(metadata).unwrap();
-        let (account_id, _groups) = auth::get_claims_account_and_roles(&token).unwrap();
-        let role_group = auth::get_current_role(metadata).unwrap();
-
-        let epic_id = &request.get_ref().epic_id;
-
-        // TODO: 可能需要关联用户工程可读检查
-
-        let majordomo_arc = get_majordomo();
-        let manager = majordomo_arc
-            .get_manager_by_id(SEQUENCES_MANAGE_ID)
-            .unwrap();
-
-        let query_doc = doc! {
-            SEQUENCES_EPIC_ID_FIELD_ID.to_string(): epic_id,
-        };
-
-        let result = manager
-            .get_entities_by_filter(&Some(query_doc))
-            .await;
-
-        match result {
-            Ok(r) => Ok(Response::new(GetEpicSequencesResponse {
-                sequences: r.iter().map(|x| bson::to_vec(x).unwrap()).collect(),
-            })),
-            Err(e) => Err(Status::aborted(format!(
-                "{} {}",
-                e.operation(),
-                e.details()
-            ))),
-        }
+        validate_view_rules(request)
+            .and_then(validate_request_params)
+            .and_then(handle_get_epic_sequences)
+            .await
     }
 }
-
 
 async fn validate_view_rules(
     request: Request<GetEpicSequencesRequest>,
@@ -72,4 +45,36 @@ async fn validate_request_params(
     request: Request<GetEpicSequencesRequest>,
 ) -> Result<Request<GetEpicSequencesRequest>, Status> {
     Ok(request)
+}
+
+async fn handle_get_epic_sequences(
+    request: Request<GetEpicSequencesRequest>,
+) -> Result<Response<GetEpicSequencesResponse>, Status> {
+    let (_account_id, _groups, _role_group) = request_account_context(request.metadata());
+
+    let epic_id = &request.get_ref().epic_id;
+
+    // TODO: 可能需要关联用户工程可读检查
+
+    let majordomo_arc = get_majordomo();
+    let manager = majordomo_arc
+        .get_manager_by_id(SEQUENCES_MANAGE_ID)
+        .unwrap();
+
+    let query_doc = doc! {
+        SEQUENCES_EPIC_ID_FIELD_ID.to_string(): epic_id,
+    };
+
+    let result = manager.get_entities_by_filter(&Some(query_doc)).await;
+
+    match result {
+        Ok(r) => Ok(Response::new(GetEpicSequencesResponse {
+            sequences: r.iter().map(|x| bson::to_vec(x).unwrap()).collect(),
+        })),
+        Err(e) => Err(Status::aborted(format!(
+            "{} {}",
+            e.operation(),
+            e.details()
+        ))),
+    }
 }

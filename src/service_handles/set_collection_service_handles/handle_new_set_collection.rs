@@ -52,7 +52,7 @@ async fn validate_request_params(
 async fn handle_new_set_collection(
     request: Request<NewSetCollectionRequest>,
 ) -> Result<Response<NewSetCollectionResponse>, Status> {
-    let (account_id, _groups, _role_group) = request_account_context(request.metadata());
+    let (account_id, _groups, role_group) = request_account_context(request.metadata());
 
     let name = &request.get_ref().name;
     let inner_root = &request.get_ref().inner_root_path;

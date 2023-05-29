@@ -54,7 +54,7 @@ async fn validate_request_params(
 async fn handle_new_project(
     request: Request<NewProjectRequest>,
 ) -> Result<Response<NewProjectResponse>, Status> {
-    let (account_id, _groups, _role_group) = request_account_context(request.metadata());
+    let (account_id, _groups, role_group) = request_account_context(request.metadata());
 
     let name = &request.get_ref().name;
     let inner_root_path = &request.get_ref().inner_root_path;
@@ -111,6 +111,6 @@ async fn handle_new_project(
             ))),
         }
     } else {
-        return Err(Status::data_loss("新建工程实体失败."));
+        Err(Status::data_loss("新建工程实体失败."))
     }
 }

@@ -1,6 +1,6 @@
 [package]
 name = "knitter_module"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["闫刚 <yes7rose@sina.com>"]
 edition = "2021"
 
@@ -33,5 +33,5 @@ rust-i18n = "1.2"
 once_cell = "1.10"
 
 [build-dependencies]
-tonic-build = "0.7.2"
+dependencies_sync ={ path = "../cashmere_core/dependencies_sync", features = ["tonic-build"] }
 manage_define = { path = "../cashmere_core/manage_define" }

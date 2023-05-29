@@ -1,9 +1,12 @@
 use dependencies_sync::bson::{doc, Document};
 use dependencies_sync::tonic::async_trait;
 use dependencies_sync::tonic::{Request, Response, Status};
+use dependencies_sync::futures::TryFutureExt;
+
 use majordomo::{self, get_majordomo};
 use manage_define::general_field_ids::ID_FIELD_ID;
 use managers::traits::ManagerTrait;
+use request_utils::request_account_context;
 use service_utils::types::UnaryResponseResult;
 
 use crate::ids_codes::field_ids::*;
@@ -17,11 +20,39 @@ pub trait HandleAssociateAssetCollectionsToProject {
         &self,
         request: Request<AssociateAssetCollectionsToProjectRequest>,
     ) -> UnaryResponseResult<AssociateAssetCollectionsToProjectResponse> {
-        let metadata = request.metadata();
-        // 已检查过，不需要再检查正确性
-        let token = auth::get_auth_token(metadata).unwrap();
-        let (account_id, _groups) = auth::get_claims_account_and_roles(&token).unwrap();
-        let role_group = auth::get_current_role(metadata).unwrap();
+        validate_view_rules(request)
+            .and_then(validate_request_params)
+            .and_then(handle_associate_asset_collections_to_project)
+            .await
+    }
+}
+
+
+async fn validate_view_rules(
+    request: Request<AssociateAssetCollectionsToProjectRequest>,
+) -> Result<Request<AssociateAssetCollectionsToProjectRequest>, Status> {
+    #[cfg(feature = "view_rules_validate")]
+    {
+        let manage_id = PROJECTS_MANAGE_ID;
+        let (_account_id, _groups, role_group) = request_account_context(request.metadata());
+        if Err(e) = view::validates::validate_collection_can_write(&manage_id, &role_group).await {
+            return Err(e);
+        }
+    }
+
+    Ok(request)
+}
+
+async fn validate_request_params(
+    request: Request<AssociateAssetCollectionsToProjectRequest>,
+) -> Result<Request<AssociateAssetCollectionsToProjectRequest>, Status> {
+    Ok(request)
+}
+
+async fn handle_associate_asset_collections_to_project(
+    request: Request<AssociateAssetCollectionsToProjectRequest>,
+) -> Result<Response<AssociateAssetCollectionsToProjectResponse>, Status> {
+    let (account_id, _groups, _role_group) = request_account_context(request.metadata());
 
         let project_id = &request.get_ref().project_id;
         let collection_ids = &request.get_ref().collection_ids;
@@ -54,27 +85,4 @@ pub trait HandleAssociateAssetCollectionsToProject {
                 e.details()
             ))),
         }
-    }
-}
-
-
-async fn validate_view_rules(
-    request: Request<AssociateAssetCollectionsToProjectRequest>,
-) -> Result<Request<AssociateAssetCollectionsToProjectRequest>, Status> {
-    #[cfg(feature = "view_rules_validate")]
-    {
-        let manage_id = PROJECTS_MANAGE_ID;
-        let (_account_id, _groups, role_group) = request_account_context(request.metadata());
-        if Err(e) = view::validates::validate_collection_can_write(&manage_id, &role_group).await {
-            return Err(e);
-        }
-    }
-
-    Ok(request)
-}
-
-async fn validate_request_params(
-    request: Request<AssociateAssetCollectionsToProjectRequest>,
-) -> Result<Request<AssociateAssetCollectionsToProjectRequest>, Status> {
-    Ok(request)
 }
