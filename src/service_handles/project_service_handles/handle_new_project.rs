@@ -62,7 +62,7 @@ async fn handle_new_project(
     let picture = &request.get_ref().picture;
     let description = &request.get_ref().description;
 
-    if validate_name(name).is_err() {
+    if !validate_name(name){
         return Err(Status::data_loss("名字不能为空."));
     }
     let name = name.as_ref().unwrap();

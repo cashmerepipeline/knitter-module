@@ -12,19 +12,9 @@ schema = [
     { data_type = "List", name_map = { zh = "库目图片", en = "picture" }, removed = false },
 ]
 
-# 特有属性
-
-# 事件队列和消息队列表
-[queues]
-
-# 事件定义, 不是必须
-[events]
-event_queue = []
-massage_queue = []
-
 # 初始实体
 [items]
-
+1 = { 1000 = "cn", 1002 = "8610000000000", 1001 = {zh = "默认集", en="default"}, 1006 = "8610000000000", 1007 = ["1000000",], 1200=false,2001 = "default", 2002 = "default", 2003=""}
 
 [view_rules]
 [view_rules.manage]

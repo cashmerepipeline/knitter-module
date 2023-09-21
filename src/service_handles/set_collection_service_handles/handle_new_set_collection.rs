@@ -59,7 +59,7 @@ async fn handle_new_set_collection(
     let external_root = &request.get_ref().external_root_path;
     let picture = &request.get_ref().picture;
 
-    if validate_name(name).is_err() {
+    if !validate_name(name){
         return Err(Status::data_loss("名字不能为空."));
     }
     let name = name.as_ref().unwrap();

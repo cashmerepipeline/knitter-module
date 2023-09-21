@@ -12,7 +12,6 @@ schema = [
     { data_type = "List", name_map = { zh = "引用表", en = "references" }, removed = false },
     { data_type = "Map", name_map = { zh = "灯光系统", en = "lights" }, removed = false },
     { data_type = "Map", name_map = { zh = "规格", en = "specses" }, removed = false },
-    { data_type = "Map", name_map = { zh = "预制件", en = "prefabs" }, removed = false },
     # done, suspending, cancal
     { data_type = "String", name_map = { zh = "状态", en = "status" }, removed = false },
     { data_type = "List", name_map = { zh = "预览", en = "previews" }, removed = false },

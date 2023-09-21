@@ -8,14 +8,14 @@ Modified: !date!
 
 use std::sync::Arc;
 
-use cash_core::{Manage, manage_from_document};
+use cash_core::{manage_from_document, Manage};
 use cash_result::*;
 use dependencies_sync::bson::Document;
 use dependencies_sync::parking_lot::RwLock;
 // use log::{error, info, warn};
 use dependencies_sync::tonic::async_trait;
 use manage_define::manage_ids::MANAGES_MANAGE_ID;
-use managers::{declare_get_manager, Manager, ManagerInner, traits::ManagerTrait};
+use managers::{declare_get_manager, traits::ManagerTrait, Manager, ManagerInner};
 
 use crate::ids_codes::manage_ids::SETS_MANAGE_ID;
 
@@ -36,7 +36,15 @@ declare_get_manager!(SetsManager, SETS_MANAGER);
 #[async_trait]
 impl ManagerTrait for SetsManager {
     fn unregister(&self) -> Result<OperationResult, OperationResult> {
-        Err(operation_failed("unregister", "账户管理器不能被注销"))
+        Err(operation_failed(
+            "unregister",
+            format!(
+                    "{}-{}-{}",
+                    t!("管理器不能被注销"),
+                    self.get_manager_id(),
+                    self.get_manager_name()
+            ),
+        ))
     }
 
     fn get_manager_id(&self) -> i32 {
@@ -88,7 +96,6 @@ impl ManagerTrait for SetsManager {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     #[test]
@@ -96,5 +103,3 @@ mod tests {
         assert_eq!(2 + 2, 4);
     }
 }
-
-
