@@ -15,7 +15,7 @@ use dependencies_sync::parking_lot::RwLock;
 // use log::{error, info, warn};
 use dependencies_sync::tonic::async_trait;
 use manage_define::manage_ids::MANAGES_MANAGE_ID;
-use managers::{declare_get_manager, traits::ManagerTrait, Manager, ManagerInner};
+use managers::{declare_get_manager, ManagerTrait, Manager, ManagerInner};
 
 use crate::ids_codes::manage_ids::CUTS_MANAGE_ID;
 
@@ -41,17 +41,17 @@ impl ManagerTrait for CutsManager {
             format!(
                     "{}-{}-{}",
                     t!("管理器不能被注销"),
-                    self.get_manager_id(),
-                    self.get_manager_name()
+                    self.get_id(),
+                    self.get_name()
             ),
         ))
     }
 
-    fn get_manager_id(&self) -> i32 {
+    fn get_id(&self) -> i32 {
         CUTS_MANAGE_ID
     }
 
-    fn get_manager_name(&self) -> String {
+    fn get_name(&self) -> String {
         "CutsManager".to_string()
     }
 

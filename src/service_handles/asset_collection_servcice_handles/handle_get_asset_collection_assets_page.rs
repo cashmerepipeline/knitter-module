@@ -3,7 +3,7 @@ use dependencies_sync::futures::TryFutureExt;
 use dependencies_sync::tonic::{Request, Response, Status};
 use dependencies_sync::tonic::async_trait;
 use majordomo::{self, get_majordomo};
-use managers::traits::ManagerTrait;
+use managers::ManagerTrait;
 use request_utils::request_account_context;
 use service_utils::types::UnaryResponseResult;
 use view::{add_query_filters, get_manage_schema_view};

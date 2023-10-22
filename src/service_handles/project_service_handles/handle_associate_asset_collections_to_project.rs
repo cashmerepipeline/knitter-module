@@ -5,7 +5,7 @@ use dependencies_sync::futures::TryFutureExt;
 
 use majordomo::{self, get_majordomo};
 use manage_define::general_field_ids::ID_FIELD_ID;
-use managers::traits::ManagerTrait;
+use managers::ManagerTrait;
 use request_utils::request_account_context;
 use service_utils::types::UnaryResponseResult;
 

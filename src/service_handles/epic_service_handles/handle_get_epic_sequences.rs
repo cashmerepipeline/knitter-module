@@ -4,7 +4,7 @@ use dependencies_sync::tonic::{Request, Response, Status};
 use dependencies_sync::futures::TryFutureExt;
 
 use majordomo::{self, get_majordomo};
-use managers::traits::ManagerTrait;
+use managers::ManagerTrait;
 use request_utils::request_account_context;
 use service_utils::types::UnaryResponseResult;
 

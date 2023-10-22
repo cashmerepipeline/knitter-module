@@ -15,7 +15,7 @@ use dependencies_sync::parking_lot::RwLock;
 // use log::{error, info, warn};
 use dependencies_sync::tonic::async_trait;
 use manage_define::manage_ids::MANAGES_MANAGE_ID;
-use managers::{declare_get_manager, Manager, ManagerInner, traits::ManagerTrait};
+use managers::{declare_get_manager, Manager, ManagerInner, ManagerTrait};
 
 use crate::ids_codes::manage_ids::SET_COLLECTIONS_MANAGE_ID;
 
@@ -39,11 +39,11 @@ impl ManagerTrait for SetCollectionsManager {
         Err(operation_failed("unregister", format!("{}: {}", SET_COLLECTIONS_MANAGE_ID, t!("管理器不能被注销"))))
     }
 
-    fn get_manager_id(&self) -> i32 {
+    fn get_id(&self) -> i32 {
         SET_COLLECTIONS_MANAGE_ID
     }
 
-    fn get_manager_name(&self) -> String {
+    fn get_name(&self) -> String {
         "SetCollectionsManager".to_string()
     }
 

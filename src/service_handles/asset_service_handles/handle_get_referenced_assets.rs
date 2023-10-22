@@ -4,7 +4,7 @@ use dependencies_sync::tonic::{Request, Response, Status};
 use dependencies_sync::tonic::async_trait;
 use majordomo::{self, get_majordomo};
 use manage_define::general_field_ids::ID_FIELD_ID;
-use managers::traits::ManagerTrait;
+use managers::ManagerTrait;
 use service_utils::types::UnaryResponseResult;
 
 use crate::ids_codes::manage_ids::*;

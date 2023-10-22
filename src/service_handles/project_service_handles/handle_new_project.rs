@@ -5,7 +5,7 @@ use dependencies_sync::tonic::{Request, Response, Status};
 use majordomo::{self, get_majordomo};
 use manage_define::general_field_ids::NAME_MAP_FIELD_ID;
 use manage_define::general_field_ids::DESCRIPTIONS_FIELD_ID;
-use managers::traits::ManagerTrait;
+use managers::ManagerTrait;
 use managers::utils::make_new_entity_document;
 use request_utils::request_account_context;
 use service_utils::types::UnaryResponseResult;
@@ -73,7 +73,7 @@ async fn handle_new_project(
         .unwrap();
 
     // 新建
-    if let Some(mut new_entity_doc) = make_new_entity_document(&manager).await {
+    if let Some(mut new_entity_doc) = make_new_entity_document(&manager, &account_id).await {
         new_entity_doc.insert(
             NAME_MAP_FIELD_ID.to_string(),
             doc! {name.language.clone():name.name.clone()},

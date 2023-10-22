@@ -6,7 +6,7 @@ use majordomo::{self, get_majordomo};
 use manage_define::general_field_ids::{
     DESCRIPTIONS_FIELD_ID, ID_FIELD_ID, NAME_MAP_FIELD_ID,
 };
-use managers::traits::ManagerTrait;
+use managers::ManagerTrait;
 use request_utils::request_account_context;
 use service_utils::types::UnaryResponseResult;
 use service_utils::validate_name;
@@ -71,7 +71,7 @@ async fn handle_new_set(
         .unwrap();
 
     // 新建条目
-    let new_id = manager.get_new_entity_id().await.unwrap();
+    let new_id = manager.get_new_entity_id(&account_id).await.unwrap();
     let mut new_entity_doc = Document::new();
     new_entity_doc.insert(ID_FIELD_ID.to_string(), new_id.to_string());
     new_entity_doc.insert(
