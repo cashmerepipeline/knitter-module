@@ -2,7 +2,7 @@ use dependencies_sync::tonic_build;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     tonic_build::configure()
-        .out_dir("src")
+        .out_dir("src/protocols")
         .extern_path(".cashmere", "::manage_define::cashmere")
         .build_client(false)
         .build_server(false)
