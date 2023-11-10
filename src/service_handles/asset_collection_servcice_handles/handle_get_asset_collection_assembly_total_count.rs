@@ -69,7 +69,7 @@ async fn handle_get_asset_collection_assembly_total_count(
         doc! {"$in":[collection_id]},
     );
 
-    let result = manager.get_entry_counts(filter_doc).await;
+    let result = manager.count_entity(filter_doc).await;
 
     match result {
         Ok(r) => Ok(Response::new(

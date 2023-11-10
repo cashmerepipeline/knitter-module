@@ -64,7 +64,7 @@ async fn handle_change_project_status(
     let mut query_doc = doc! {};
     query_doc.insert(ID_FIELD_ID.to_string(), project_id);
 
-    if !manager.entity_exists(&query_doc).await {
+    if !manager.entity_exists(&query_doc).await.is_some() {
         return Err(Status::data_loss(t!("工程不存在")));
     };
 
