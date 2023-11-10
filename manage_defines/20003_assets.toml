@@ -4,6 +4,7 @@
 
 id = 20003
 name_map = { zh = "资产", en = "assets" }
+is_searchable = true
 
 # 数据描写 或者 模式
 schema = [

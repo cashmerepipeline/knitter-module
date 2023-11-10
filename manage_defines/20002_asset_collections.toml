@@ -4,6 +4,7 @@
 
 id = 20002
 name_map = { zh = "库", en = "asset_collections" }
+is_searchable = true
 
 # 数据描写 或者 模式
 schema = [

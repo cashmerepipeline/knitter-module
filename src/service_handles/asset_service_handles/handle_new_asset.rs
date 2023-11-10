@@ -4,7 +4,7 @@ use dependencies_sync::tonic::async_trait;
 use dependencies_sync::tonic::{Request, Response, Status};
 use majordomo::{self, get_majordomo};
 use manage_define::general_field_ids::{
-    DESCRIPTIONS_FIELD_ID, ID_FIELD_ID, NAME_MAP_FIELD_ID,
+    DESCRIPTION_FIELD_ID, ID_FIELD_ID, NAME_MAP_FIELD_ID,
 };
 use managers::ManagerTrait;
 use request_utils::request_account_context;
@@ -87,7 +87,7 @@ async fn handle_new_asset(
         asset_collection_id.clone(),
     );
     new_entity_doc.insert(
-        DESCRIPTIONS_FIELD_ID.to_string(),
+        DESCRIPTION_FIELD_ID.to_string(),
         description.clone(),
     );
 

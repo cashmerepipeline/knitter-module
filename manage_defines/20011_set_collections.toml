@@ -4,6 +4,7 @@
 
 id = 20011
 name_map = { zh = "景", en = "set_collections" }
+is_searchable = true
 
 # 数据描写 或者 模式
 schema = [

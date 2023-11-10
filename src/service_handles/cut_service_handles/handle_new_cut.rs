@@ -4,7 +4,7 @@ use dependencies_sync::tonic::{Request, Response, Status};
 use dependencies_sync::futures::TryFutureExt;
 
 use majordomo::{self, get_majordomo};
-use manage_define::general_field_ids::{DESCRIPTIONS_FIELD_ID, ID_FIELD_ID, NAME_MAP_FIELD_ID};
+use manage_define::general_field_ids::{DESCRIPTION_FIELD_ID, ID_FIELD_ID, NAME_MAP_FIELD_ID};
 use managers::ManagerTrait;
 use request_utils::request_account_context;
 use service_utils::types::UnaryResponseResult;
@@ -75,7 +75,7 @@ async fn handle_new_cut(
         doc! {name.language.clone():name.name.clone()},
     );
     new_entity_doc.insert(CUTS_SEQUENCE_ID_FIELD_ID.to_string(), sequence_id.clone());
-    new_entity_doc.insert(DESCRIPTIONS_FIELD_ID.to_string(), description.clone());
+    new_entity_doc.insert(DESCRIPTION_FIELD_ID.to_string(), description.clone());
 
     let result = manager
         .sink_entity(&mut new_entity_doc, &account_id, &role_group)

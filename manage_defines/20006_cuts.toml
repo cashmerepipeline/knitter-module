@@ -4,6 +4,7 @@
 
 id = 20006
 name_map = { zh = "镜", en = "cuts" }
+is_searchable = true
 
 # 数据描写 或者 模式
 schema = [

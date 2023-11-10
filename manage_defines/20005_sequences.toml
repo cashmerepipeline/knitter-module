@@ -4,6 +4,7 @@
 
 id = 20005
 name_map = { zh = "场", en = "sequences" }
+is_searchable = true
 
 # 数据描写 或者 模式
 schema = [

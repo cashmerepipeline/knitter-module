@@ -4,6 +4,7 @@
 
 id = 20007
 name_map = { zh = "集", en = "epics" }
+is_searchable = true
 
 # 数据描写 或者 模式
 schema = [

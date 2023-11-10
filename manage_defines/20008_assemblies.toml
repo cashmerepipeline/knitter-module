@@ -4,6 +4,7 @@
 
 id = 20008
 name_map = { zh = "预组件", en = "assemblies" }
+is_searchable = true
 
 # 数据描写 或者 模式
 schema = [

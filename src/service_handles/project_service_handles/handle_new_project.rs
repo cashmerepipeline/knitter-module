@@ -4,7 +4,7 @@ use dependencies_sync::tonic::async_trait;
 use dependencies_sync::tonic::{Request, Response, Status};
 use majordomo::{self, get_majordomo};
 use manage_define::general_field_ids::NAME_MAP_FIELD_ID;
-use manage_define::general_field_ids::DESCRIPTIONS_FIELD_ID;
+use manage_define::general_field_ids::DESCRIPTION_FIELD_ID;
 use managers::ManagerTrait;
 use managers::utils::make_new_entity_document;
 use request_utils::request_account_context;
@@ -91,7 +91,7 @@ async fn handle_new_project(
             bson::to_bson(picture).unwrap(),
         );
         new_entity_doc.insert(
-            DESCRIPTIONS_FIELD_ID.to_string(),
+            DESCRIPTION_FIELD_ID.to_string(),
             description,
         );
 
